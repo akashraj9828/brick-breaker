@@ -23,41 +23,6 @@ function setup() {
   // frameRate(7)
 
 }
-function Ball() {
-  this.bx = width / 2
-  this.by = height - 90
-  this.xspeed = speed
-  this.yspeed = speed
-
-  this.update = function () {
-    this.bx += this.xspeed;
-    this.by += this.yspeed;
-  }
-
-  this.wall = function () {
-    if (this.bx <= 0 || this.bx >= width)
-      this.xspeed = -this.xspeed;
-
-    if (this.by <= 0)
-      this.yspeed = -this.yspeed
-
-    if (this.by >= height) {
-      console.log("game over ");
-      this.yspeed = -this.yspeed
-    }
-  }
-
-  push();
-  this.render = function () {
-    noStroke();
-    fill("red")
-    ellipse(this.bx, this.by,r,r)
-    pop();
-
-
-
-  }
-}
 function draw() {
   background(51);
   ball.render();
@@ -91,18 +56,7 @@ function collision() {
   }
 }
 
-function brick() {
-  this.x = width / 2
-  this.y = height / 2
-  this.l = width / xscl
-  this.h = width / xscl / 3
-  // var spl
-  this.render = function () {
-    // rectMode(CENTER);
-    fill(120);
-    rect(this.x, this.y, this.l, this.h)// height/yscl);
-  }
-}
+
 
 function createBrick() {
   posx = 200
@@ -125,21 +79,6 @@ function createBrick() {
 
 
 
-function paddle() {
-  this.y = height - 30
-  this.x = width / 2
-  this.show = function () {
-    rectMode(CENTER);
-    fill(255);
-    rect(this.x, this.y, width / 7, height / 50);
-
-  }
-  this.update = function (key) {
-
-    this.x += key;
-
-  }
-}
 
 
 function keyPressed(){

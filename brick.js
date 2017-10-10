@@ -9,12 +9,12 @@ function brick(x,y) {
     this.hit
     // this.x = width / 2
     // this.y = height / 2
-    this.l = width / xscl
-    this.h = width / xscl / 3
+    this.l =brick_length
+    this.h = brick_height
     
-    this.render = function (color) {
-      rectMode(CENTER);
-      fill(color);
+    this.render = function (r,g,b,a) {
+    //   rectMode(CENTER);
+      fill(r,g,b,a);
       rect(this.x, this.y, this.l, this.h)// height/yscl);
     //   push()
     //   strokeWeight(3)

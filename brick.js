@@ -1,15 +1,27 @@
 
 
-function brick() {
-    this.x = width / 2
-    this.y = height / 2
+function brick(x,y) {
+    if(x)
+    this.x=x
+    if(y)
+    this.y=y
+
+    this.hit
+    // this.x = width / 2
+    // this.y = height / 2
     this.l = width / xscl
     this.h = width / xscl / 3
-    // var spl
-    this.render = function () {
-      // rectMode(CENTER);
-      fill(120);
+    
+    this.render = function (color) {
+      rectMode(CENTER);
+      fill(color);
       rect(this.x, this.y, this.l, this.h)// height/yscl);
+    //   push()
+    //   strokeWeight(3)
+    //   stroke(100)
+    //   fill(255)
+    //   ellipse(this.x,this.y,2,2)
+    //   pop()
     }
   }
   

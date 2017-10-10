@@ -1,22 +1,24 @@
 function Ball() {
-    this.bx = width / 2
-    this.by = height - 90
+    
+    
     this.xspeed = speed
     this.yspeed = speed
+    this.x = width / 2
+    this.y =height- height/10
   
     this.update = function () {
-      this.bx += this.xspeed;
-      this.by += this.yspeed;
+      this.x += this.xspeed;
+      this.y += this.yspeed;
     }
   
     this.wall = function () {
-      if (this.bx <= 0 || this.bx >= width)
+      if (this.x <= 0 || this.x >= width)
         this.xspeed = -this.xspeed;
   
-      if (this.by <= 0)
+      if (this.y <= 0)
         this.yspeed = -this.yspeed
   
-      if (this.by >= height) {
+      if (this.y >= height) {
         console.log("game over ");
         this.yspeed = -this.yspeed
       }
@@ -26,7 +28,7 @@ function Ball() {
     this.render = function () {
       noStroke();
       fill("red")
-      ellipse(this.bx, this.by,r,r)
+      ellipse(this.x, this.y,r,r)
       pop();
   
   

@@ -6,20 +6,20 @@ var posx
 var posy
 var xscl = 50
 var yscl = 90
-var brick_length 
-var brick_height 
+var brick_length
+var brick_height
 var n = 1000
 var speed
 var r
 
 var pause = false
-
+var debugging = false;
 
 function setup() {
   createCanvas(windowWidth - 50, windowHeight - 100)
-  brick_length=width/xscl
-  brick_height=height/yscl
-  r = height / 50
+  brick_length = width / xscl
+  brick_height = height / yscl
+  r = height / 70
   pdlspeed = width / 50
   speed = width / 200
   pdl = new paddle();
@@ -48,8 +48,10 @@ function draw() {
 
 
 function render_bricks() {
+  stroke(10)//boundary color
+  strokeWeight(1)
   for (i = 0; i < bricks.length; i++) {
-    stroke(10)
+
     if (bricks[i].hit) {
       bricks[i].render(200, 0, 0, 50)
     } else {
@@ -61,53 +63,75 @@ function render_bricks() {
 
 function collision() {
 
-  br = ball.x + r;
-  bl = ball.x - r;
-  bt = ball.x - r;
-  bb = ball.x + r;
+  br = floor(ball.x + r);   //ball right
+  bl = floor(ball.x - r);   //ball left
+  bt = floor(ball.x - r);   //ball top
+  bb = floor(ball.x + r);   //ball bottom
 
-  for (i = 0; i < brick.length; i++) {
+
+  for (i = 0; i < bricks.length; i++) {
     //   coll = false
     if (!bricks[i].hit) {
-      if ((br > bricks[i].x) || (bl < bricks[i].x + bricks[i].l)) {     //ball.x in bricks range
+      if ((floor(ball.x + r) == floor(bricks[i].x)) || (floor(ball.x - r) == floor(bricks[i].x + bricks[i].l))) {     //ball.x in bricks range
 
-        if ((bb > bricks[i].y) && (bt < bricks[i].y + bricks[i].h)) {
+        if ((ball.y + r > bricks[i].y) && (ball.y - r < bricks[i].y + bricks[i].h)) {
           bricks[i].hit = true;
-          bricks.splice(i, 1)
+          // bricks.splice(i, 1)
           ball.xspeed = -ball.xspeed
-          // pause = true
+          console.log("X--",floor(ball.x+r) + "::" + floor(bricks[i].x) + "><" + floor(ball.y+r) + "::" + floor(bricks[i].y))
+          // pause=true
           // noLoop();
-        } 
-      }else
-      if ((bb == bricks[i].y) || (bt == bricks[i].y + bricks[i].h)) {     //ball.x in bricks range
+          return;
+        }
+      }
 
-        if ((br > bricks[i].x) && (bl < bricks[i].x + bricks[i].l)) {
+      if ((floor(ball.y + r) == floor(bricks[i].y)) || (floor(ball.y - r) == floor(bricks[i].y + bricks[i].h))) {     //ball.x in bricks range
+
+        if ((ball.x + r > bricks[i].x) && (ball.x - r < bricks[i].x + bricks[i].l)) {
           bricks[i].hit = true;
-          bricks.splice(i, 1)
+          // bricks.splice(i, 1)
           ball.yspeed = -ball.yspeed
-          // pause = true
+          console.log("Y--"+floor(ball.x) + "::" + floor(bricks[i].x) + "><" + floor(ball.y) + "::" + floor(bricks[i].y))
+          // pause=true
           // noLoop();
+          return;
         }
       }
     }
   }
 
+  // for (i = 0; i < brick.length; i++) {
+  //   if (!bricks[i].hit) {
+  //     bx=floor(bricks[i].x);    //brick x
+  //     bxl=floor(bx+bricks[i].l)  //brick x+l
+  //     by=floor(bricks[i].y)     //brick y
+  //     byh=floor(by+bricks[i].h)   //brick y+l
 
-  // for (i = 0; i < bricks.length; i++) {
-  // //   coll = false
-  // if(!bricks[i].hit){
-  //   if ((ball.x + r > bricks[i].x) && (ball.x - r < bricks[i].x + bricks[i].l)) {     //ball.x in bricks range
+  //     // console.log(bx+":"+by+":"+bt+":"+bb+":"+br+":"+bl)
 
-  //     if ((ball.y + r > bricks[i].y) && (ball.y - r < bricks[i].y + bricks[i].h)) {
-  //      bricks[i].hit=true;
-  //       // bricks.splice(i, 1)
-  //       ball.yspeed=-ball.yspeed
-  //       pause=true
-  //       noLoop();
-  //     }
+  //     if ((br == bx) || (bl == bxl)) {     //ball.x in bricks range
+  //       console.log("x")
+  //       if ((bb > by) && (bt <byh)) {
+  //         bricks[i].hit = true;
+  //         bricks.splice(i, 1)
+  //         ball.xspeed = -ball.xspeed
+
+  //       }
+  //     } else
+  //       if ((bb ==by) || (bt ==byh)) {     //ball.x in bricks range
+  //         console.log("y")
+  //         if ((br > bx) && (bl < bxl)) {
+  //           bricks[i].hit = true;
+  //           bricks.splice(i, 1)
+  //           ball.yspeed = -ball.yspeed
+
+  //         }
+  //       }
   //   }
   // }
-  // }
+
+
+
 
 
 
@@ -129,23 +153,24 @@ function collision() {
 
 
 function createBrick() {
-  posx = width / 5
-  posy = height / 3.5
+  posx = width
+  posy = height / 10
   for (i = 0; i < n; i++) {
 
 
 
-    bricks[i] = new brick(posx, posy);
+    bricks[i] = new brick()//posx, posy);
     bricks[i].hit = false;
 
-    // bricks[i].x = posx
-    // bricks[i].y = posy
+    bricks[i].x = posx
+    bricks[i].y = posy
 
-    posx += brick_length
+
     if (posx > width - width / 5) {
-      posy += brick_height
+      posy += brick_height 
       posx = 200
     }
+    posx += brick_length  
     // console.log(bricks[i].x)
   }
 
